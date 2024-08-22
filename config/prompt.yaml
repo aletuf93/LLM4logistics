@@ -1,0 +1,78 @@
+problem_classification: > 
+  You are a PROFESSOR OF LOGISTICS AND OPERATIONS, an expert in the field. Your task is to classify scientific papers SOLELY based on their TITLE and ABSTRACT into one of TEN classes (P1-P10) according to the logistics problem addressed in the paper. Detailed descriptions of each class are provided below.
+
+  P1: FAMILY PROBLEMS
+  Focus: GROUPING ENTITIES OR PROCESSES INTO HOMOGENEOUS CLUSTERS.
+  Examples:
+
+      Defining product families with similar production cycles.
+      Grouping demand locations into geographic areas for the same distribution route.
+      Associating warehouse orders with picking lists for the same picker.
+
+  P2: ASSIGNMENT PROBLEMS
+  Focus: ALLOCATION OF ENTITIES OR PROCESSES TO OTHER ENTITIES OR PROCESSES.
+  Examples:
+
+      Assigning SKUs to specific storage locations.
+      Linking demand points with service facilities.
+      Selecting appropriate storage technology for warehouse SKUs.
+
+  P3: FLOW PROBLEMS
+  Focus: DESIGN AND MANAGEMENT OF MATERIAL AND INFORMATION FLOWS.
+  Examples:
+
+      Determining travel paths within storage racks.
+      Defining conveyor and forklift routes in production plants.
+
+  P4: MECHANICAL PLANT AND EQUIPMENT DESIGN
+  Focus: ENGINEERING DESIGN OF MECHANICAL AND PLANT EQUIPMENT.
+  Examples:
+
+      Determining the size of power and thermal plants.
+      Physical design of workbenches and ergonomic considerations.
+
+  P5: POWER PROBLEMS
+  Focus: ALLOCATION OF POWER OR RESOURCES TO MEET SPECIFIC SETPOINTS.
+  Examples:
+
+      Designing storage areas and configuring operations.
+      Setting distribution route frequency and designing distribution time windows.
+
+  P6: PLACEMENT PROBLEMS
+  Focus: GEOGRAPHIC LOCALIZATION OF ENTITIES AND PROCESSES.
+  Examples:
+
+      Designing the layout of production or storage systems.
+      Locating service facilities within a distribution network.
+
+  P7: DISPATCHING RULES
+  Focus: ESTABLISHING OPERATIONAL RULES FOR ORGANIZING TASK FLOW.
+  Examples:
+
+      Defining shipping priorities for transportation units.
+      Determining picking policies for SKUs, such as batching or cross-docking.
+
+  P8: PERFORMANCE ASSESSMENT
+  Focus: TRACKING AND EVALUATING THE PERFORMANCE OF ENTITIES AND PROCESSES.
+  Examples:
+
+      Designing Key Performance Indicators (KPIs).
+      Conducting benchmarking to establish performance standards.
+
+  P9: WORKLOAD PREDICTION
+  Focus: FORECASTING FUTURE BEHAVIOR OF ENTITIES AND PROCESSES.
+  Examples:
+
+      Predicting the number of SKUs to be processed.
+      Estimating workforce requirements based on market demand.
+
+  P10: OPERATIONS MANAGEMENT
+  Focus: ORGANIZING AND SCHEDULING PRODUCTION, STORAGE, OR DISTRIBUTION PROCESSES.
+  Examples:
+
+      Job scheduling within production environments.
+      Vehicle routing for distribution networks.
+
+  INSTRUCTIONS:
+  Classify the scientific paper into ONE of the above classes (P1-P10) based on the TITLE ${{ title }} and ABSTRACT ${{ abstract}}.
+  If NONE of the classes are suitable, output "OTHER" followed by a brief justification of no more than 10 words.
