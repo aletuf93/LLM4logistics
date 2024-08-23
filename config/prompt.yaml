@@ -78,4 +78,80 @@ problem_classification: >
   If NONE of the classes are suitable, output "OTHER" followed by a brief justification of no more than 10 words.
 
 method_classification: >
-    test
+    
+    TASK:
+    You are a PROFESSOR OF LOGISTICS AND OPERATIONS, an expert in the field. Your task is to CLASSIFY the METHODOLOGY used in a SCIENTIFIC PAPER, given ONLY its TITLE and ABSTRACT. The possible categories are:
+
+    DESCRIPTIVE ANALYTICS:
+    D1: CORRELATION ANALYSIS
+
+        FOCUS: Data are analyzed to find correlations between the behaviors of entities and processes.
+        EXAMPLES: Unsupervised learning models, association rules.
+
+    D2: STATISTICAL ANALYSIS
+
+        FOCUS: Statistical techniques are used to analyze and summarize the behavior of observed data.
+        EXAMPLES: Inferential statistics, frequency analysis, Pareto analysis, data visualization techniques.
+
+    D3: BAYESIAN ANALYSIS
+
+        FOCUS: Bayesian methods are applied to describe the behavior of incomplete observed data under a given hypothesis.
+        EXAMPLES: Bayesian statistics, methods for datasets with incomplete information.
+
+    D4: SIMULATION-BASED ANALYSIS
+
+        FOCUS: Joint data distributions are used to feed simulations that model the behavior of entities and processes.
+        EXAMPLES: Monte Carlo simulation, discrete event simulation, queueing systems, digital twins.
+
+    PREDICTIVE ANALYTICS:
+    PD1: SUPERVISED LEARNING FOR PREDICTION
+
+        FOCUS: Supervised learning models predict a target variable from a dataset with multiple attributes.
+        EXAMPLES: Regression models, decision trees, support vector machines, XGBoost, neural networks.
+
+    PD2: TIME SERIES ANALYSIS
+
+        FOCUS: Methods focus on analyzing and predicting a univariate time series.
+        EXAMPLES: Time series decomposition, Fourier analysis, ARIMA models.
+
+    PD3: ENGINEERING CONTROL FOR PREDICTION
+
+        FOCUS: Control models are used to predict outcomes by manipulating input variables with controllers.
+        EXAMPLES: Control theory, linear filters, closed-form equations, travel time models.
+
+    PRESCRIPTIVE ANALYTICS:
+    PS1: OPTIMIZATION METHODS
+
+        FOCUS: Mathematical methods are used to search for solutions through predefined algorithms.
+        EXAMPLES: Linear and non-linear optimization, heuristics, metaheuristics, hierarchical procedures, systematic approaches.
+
+    PS2: CLUSTERING FOR CLASSIFICATION
+
+        FOCUS: Classification methods based on clustering quantitative datasets.
+        EXAMPLES: Soft and hard clustering models (hierarchical clustering, k-means, Gaussian Mixture Models).
+
+    PS3: MULTI-SCENARIO ANALYSIS
+
+        FOCUS: Iterative application of discrete mathematical methods with varying input variables to evaluate multiple concurrent solutions.
+        EXAMPLES: Multiscenario analysis, multiobjective optimization.
+
+    PS4: ENGINEERING CONTROL FOR PRESCRIPTION
+
+        FOCUS: Control models are used to prescribe actions by manipulating input variables with controllers.
+        EXAMPLES: Control theory, linear filters, closed-form equations.
+
+    INSTRUCTIONS:
+    Classify the scientific paper into ONE of the above classes (e.g., D1, PD1, PS1) based on the TITLE:" ${{ title }} " and ABSTRACT: " ${{ abstract}} "".
+    If NONE of the classes are suitable, output "OTHER" followed by a brief justification of no more than 10 words.
+
+    EXAMPLE INPUT:
+    "A method that uses supervised learning models, regression models, decision trees, and neural networks to predict a target variable."
+
+    EXAMPLE OUTPUT:
+    "PD1"
+
+    INPUT:
+    [Your method description here]
+
+    OUTPUT:
+    [Class code here]

@@ -2,6 +2,7 @@
 import ollama
 import pandas as pd
 import re
+import datetime
 from yaml_replace import YAMLTemplate
 
 # Define the models to test
@@ -61,6 +62,7 @@ for problem in problem_list:
     for model in model_list:
         output = []
         for i in range(0, len(df)):
+            print(f"{datetime.datetime.now()} | problem: {problem}; model: {model}; index:{i}/{len(df)-1}")
             title = df["Title"].iloc[i]
             abstract = df["Abstract"].iloc[i]
 
@@ -73,11 +75,7 @@ for problem in problem_list:
             # append result
             output.append(result)
         df[f"{problem}_{model}"] = output
-
-
-
-# %%
-df.to_excel("export.xlsx")
+        df.to_excel("export.xlsx") # save intermediate results
 
 
 # %%
