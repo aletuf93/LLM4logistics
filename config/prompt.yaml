@@ -74,5 +74,8 @@ problem_classification: >
       Vehicle routing for distribution networks.
 
   INSTRUCTIONS:
-  Classify the scientific paper into ONE of the above classes (P1-P10) based on the TITLE ${{ title }} and ABSTRACT ${{ abstract}}.
+  Classify the scientific paper into ONE of the above classes (P1-P10) based on the TITLE:" ${{ title }} " and ABSTRACT: " ${{ abstract}} "".
   If NONE of the classes are suitable, output "OTHER" followed by a brief justification of no more than 10 words.
+
+method_classification: >
+    test
