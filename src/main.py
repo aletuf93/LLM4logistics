@@ -25,6 +25,7 @@ def query_LLM(model, prompt):
                                    prompt=prompt)
         response = answer["response"]
     except Exception as error:
+        print(error)
         response = str(error)
     return response
 
@@ -70,7 +71,7 @@ for problem in problem_list:
             prompt = generate_prompt(title, abstract, problem)
 
             # Query LLM
-            result = test_query_LLM(model, prompt)
+            result = query_LLM(model, prompt)
 
             # append result
             output.append(result)
