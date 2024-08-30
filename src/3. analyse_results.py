@@ -64,10 +64,9 @@ def createHeatmap(D_scs : pd.DataFrame,
                           linewidths=.5,
                           annot=True,
                           fmt="d",
-                          #cmap="YlOrRd",
                           #cmap="PuOr",
                           cmap=cmap,
-                          center=0,
+                          mask=(D_scs_square == 0),
                           vmin=0,
                           vmax=50)
     heatmap.set_xlabel("Method")
