@@ -59,7 +59,7 @@ def createHeatmap(D_scs : pd.DataFrame,
     cmap = LinearSegmentedColormap.from_list(cmap_name, colors, N=n_bins) 
 
     #plot heatmap
-    plt.figure()
+    #plt.figure()
     heatmap = sns.heatmap(D_scs_square,
                           linewidths=.5,
                           annot=True,
@@ -69,10 +69,12 @@ def createHeatmap(D_scs : pd.DataFrame,
                           mask=(D_scs_square == 0),
                           vmin=0,
                           vmax=50)
-    heatmap.set_xlabel("Method")
-    heatmap.set_ylabel("Problem")
+    
     heatmap.set_title(title)
-    plt.savefig(f"../data/output/Heatmap_{title}.png")
+    heatmap.set_xlabel(" ")
+    heatmap.set_ylabel(" ")
+
+    #plt.savefig(f"../data/output/Heatmap_{title}.png")
     return heatmap
 
 
@@ -108,13 +110,19 @@ dict_column_models = {"phi3": {"methods_columns":"method_classification_phi3_cle
 }
 scs = ["PRODUCTION", "NETWORK", "WAREHOUSE"]
 
-for model in dict_column_models.keys():
+# create comprehensive figure
+fig, axs = plt.subplots(4, 4, figsize=(20, 20))
+
+for i_column, model in enumerate(dict_column_models.keys()):
 
     # Plot heatmap with filte for scs
-    for supply_chain_system in scs:
+    for i_row, supply_chain_system in enumerate(scs):
         df_filtered = df_analysis[df_analysis["Supply chain System"] == supply_chain_system]
 
         title = f"{supply_chain_system}_{model}"
+        
+        # set the current axis
+        plt.sca(axs[i_row, i_column])
 
         createHeatmap(df_filtered,
                     title=title,
@@ -122,9 +130,19 @@ for model in dict_column_models.keys():
                     column_method=dict_column_models[model]["methods_columns"],
                     listProblems=listProblems,
                     listMethods=listMethods)
+        
+        # set y-label
+        if i_column==0:
+            axs[i_row, i_column].set_ylabel("Problem")
+        
+        
+    
     
     # Plot heatmap without filter for scs
     title = f"overall_{model}"
+
+    # set the current axis
+    plt.sca(axs[3, i_column])
 
     createHeatmap(df_analysis,
                 title=title,
@@ -132,9 +150,42 @@ for model in dict_column_models.keys():
                 column_method=dict_column_models[model]["methods_columns"],
                 listProblems=listProblems,
                 listMethods=listMethods)
+    # set x-label
+    axs[3, i_column].set_xlabel("Method")
+    # set y-label
+    if i_column==0:
+        axs[3, i_column].set_ylabel("Problem")
+plt.savefig(f"../data/output/_master_heatmap.jpg")
 
-# %%
+# %% Vote and aggregate 
+# Seleziona le colonne di interesse
+colonne = [
+    'problem_classification_phi3_cleaned',
+    'problem_classification_llama3.1_cleaned',
+    'problem_classification_mistral_cleaned',
+    'problem_classification_qwen2_cleaned'
+]
 
+# Unisci tutte le colonne in una "long format" dataframe
+df_long = df_analysis.melt(id_vars=[], value_vars=colonne, var_name='source', value_name='classification')
+
+    # Aggiungi un ID riga per mantenere la tracciabilità delle righe originali
+    df_long['row_id'] = df.index
+
+    # Crea la tabella pivot che conta le occorrenze per riga e classificazione
+    df_pivot = df_long.pivot_table(index='row_id', columns='classification', aggfunc='size', fill_value=0)
+
+    # Unisci i risultati della pivot con il dataframe originale, mantenendo l'ordine delle righe
+    df_finale = df.join(df_pivot, on=df.index)
+
+    return df_finale
+
+# Chiamare la funzione con il percorso del file
+file_path = '/path_to_your_file/export_cleaned.xlsx'
+df_modificato = conta_valori_colonne_con_pivot(file_path)
+
+# Visualizzare il dataframe con le nuove colonne
+print(df_modificato.head())
 
 # %% create timeline
 
