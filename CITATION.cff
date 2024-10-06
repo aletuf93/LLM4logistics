@@ -6,7 +6,5 @@ authors:
     orcid: https://orcid.org/0000-0003-3876-9520
 title: "Large Language Models for Logistics and Operations"
 version: 1.0.0
-identifiers:
-  - type: url
-    value: https://github.com/aletuf93/LLM4logistics
+url: https://github.com/aletuf93/LLM4logistics
 date-released: 2024-10-06
