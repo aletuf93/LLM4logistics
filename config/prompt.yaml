@@ -1,157 +1,128 @@
 problem_classification: > 
-  You are a PROFESSOR OF LOGISTICS AND OPERATIONS, an expert in the field. Your task is to classify scientific papers SOLELY based on their TITLE and ABSTRACT into one of TEN classes (P1-P10) according to the logistics problem addressed in the paper. Detailed descriptions of each class are provided below.
+  You are a PROFESSOR OF LOGISTICS AND OPERATIONS, an expert in the field. Your task is to classify scientific papers SOLELY based on their TITLE and ABSTRACT into one single of the following SIX classes (P1-P6) according to the problem addressed in the paper. Detailed descriptions of each class are provided below.
 
-  P1: FAMILY PROBLEMS
-  Focus: GROUPING ENTITIES OR PROCESSES INTO HOMOGENEOUS CLUSTERS.
+
+  P1: TECHNOLOGY SELECTION PROBLEM
+  Focus: ENGINEERING DESIGN OF PLANT EQUIPMENT AND ASSETS.
   Examples:
 
-      Defining product families with similar production cycles.
-      Grouping demand locations into geographic areas for the same distribution route.
-      Associating warehouse orders with picking lists for the same picker.
-
-  P2: ASSIGNMENT PROBLEMS
-  Focus: ALLOCATION OF ENTITIES OR PROCESSES TO OTHER ENTITIES OR PROCESSES.
-  Examples:
-
-      Assigning SKUs to specific storage locations.
-      Linking demand points with service facilities.
-      Selecting appropriate storage technology for warehouse SKUs.
-
-  P3: FLOW PROBLEMS
-  Focus: DESIGN AND MANAGEMENT OF MATERIAL AND INFORMATION FLOWS.
-  Examples:
-
-      Determining travel paths within storage racks.
-      Defining conveyor and forklift routes in production plants.
-
-  P4: MECHANICAL PLANT AND EQUIPMENT DESIGN
-  Focus: ENGINEERING DESIGN OF MECHANICAL AND PLANT EQUIPMENT.
-  Examples:
-
-      Determining the size of power and thermal plants.
+      Determining the type or technology of thermal plants.
       Physical design of workbenches and ergonomic considerations.
-
-  P5: POWER PROBLEMS
-  Focus: ALLOCATION OF POWER OR RESOURCES TO MEET SPECIFIC SETPOINTS.
-  Examples:
-
-      Designing storage areas and configuring operations.
-      Setting distribution route frequency and designing distribution time windows.
-
-  P6: PLACEMENT PROBLEMS
+ 
+  P2: LOCATION PROBLEMS
   Focus: GEOGRAPHIC LOCALIZATION OF ENTITIES AND PROCESSES.
   Examples:
 
       Designing the layout of production or storage systems.
-      Locating service facilities within a distribution network.
-
-  P7: DISPATCHING RULES
-  Focus: ESTABLISHING OPERATIONAL RULES FOR ORGANIZING TASK FLOW.
+      Locating production or storage facilities within a distribution network.
+      
+  P3: SIZING PROBLEMS
+  Focus: DETERMINING NUMBER OR SIZE OF RESOURCES TO MEET SPECIFIC SETPOINTS.
   Examples:
 
-      Defining shipping priorities for transportation units.
-      Determining picking policies for SKUs, such as batching or cross-docking.
-
-  P8: PERFORMANCE ASSESSMENT
-  Focus: TRACKING AND EVALUATING THE PERFORMANCE OF ENTITIES AND PROCESSES.
-  Examples:
-
-      Designing Key Performance Indicators (KPIs).
-      Conducting benchmarking to establish performance standards.
-
-  P9: WORKLOAD PREDICTION
-  Focus: FORECASTING FUTURE BEHAVIOR OF ENTITIES AND PROCESSES.
-  Examples:
-
-      Predicting the number of SKUs to be processed.
-      Estimating workforce requirements based on market demand.
-
-  P10: OPERATIONS MANAGEMENT
+      Determining the number of facility and/or their capacity
+      Determining the number of fleet and/or their capacity
+      
+  P4: PLANNING PROBLEM
   Focus: ORGANIZING AND SCHEDULING PRODUCTION, STORAGE, OR DISTRIBUTION PROCESSES.
   Examples:
 
       Job scheduling within production environments.
       Vehicle routing for distribution networks.
+      
+  P5: QUALITY MANAGEMENT
+  Focus: MEASURING THE PERFORMANCE OF ENTITIES AND PROCESSES.
+  Examples:
+
+      Designing Key Performance Indicators (KPIs).
+      Conducting benchmarking to establish quality standards.
+
+   
+  P6: WORKLOAD FORECAST
+  Focus: FORECASTING FUTURE BEHAVIOR OF ENTITIES AND PROCESSES.
+  Examples:
+
+      Predicting the number of items to be processed.
+      Estimating workforce requirements based on market demand.
+   
 
   INSTRUCTIONS:
-  Classify the scientific paper into ONE of the above classes (P1-P10) based on the TITLE:" ${{ title }} " and ABSTRACT: " ${{ abstract}} "".
+  Classify the scientific paper into ONE of the above classes (P1-P10) based on the TITLE:" ${{ title }} " and ABSTRACT: " ${{ abstract }} "".
   If NONE of the classes are suitable, output "OTHER" followed by a brief justification of no more than 10 words.
+  
+  OUTPUT:
+  Produce an output with indicating ONLY the class, without adding any other information except for "OTHER" category
+    Examples:
+  	"P1"
+  	"P6"
 
 method_classification: >
     
     TASK:
-    You are a PROFESSOR OF LOGISTICS AND OPERATIONS, an expert in the field. Your task is to CLASSIFY the METHODOLOGY used in a SCIENTIFIC PAPER, given ONLY its TITLE and ABSTRACT. The possible categories are:
+    You are a PROFESSOR OF LOGISTICS AND OPERATIONS, an expert in the field. Your task is to CLASSIFY the METHODOLOGY used in a SCIENTIFIC PAPER, given ONLY its TITLE and ABSTRACT ALSO identifying if a method is used for DESCRIPTIVE (analyse current or past behaviour), PREDICTIVE (forecast future behaviour) or PRESCRIPTIVE (configure a setting setting decision variables) purpose. The possible method categories are:
 
-    DESCRIPTIVE ANALYTICS:
-    D1: CORRELATION ANALYSIS
+    STATISTICS:
+    S1: CORRELATION ANALYSIS
 
         FOCUS: Data are analyzed to find correlations between the behaviors of entities and processes.
         EXAMPLES: Unsupervised learning models, association rules.
 
-    D2: STATISTICAL ANALYSIS
+    S2: STATISTICAL ANALYSIS
 
         FOCUS: Statistical techniques are used to analyze and summarize the behavior of observed data.
         EXAMPLES: Inferential statistics, frequency analysis, Pareto analysis, data visualization techniques.
 
-    D3: BAYESIAN ANALYSIS
+    S3: BAYESIAN ANALYSIS
 
-        FOCUS: Bayesian methods are applied to describe the behavior of incomplete observed data under a given hypothesis.
+        FOCUS: Bayesian methods are applied to investigate the behavior of incomplete observed data under a given hypothesis.
         EXAMPLES: Bayesian statistics, methods for datasets with incomplete information.
 
-    D4: SIMULATION-BASED ANALYSIS
+    S4: SIMULATION-BASED ANALYSIS
 
         FOCUS: Joint data distributions are used to feed simulations that model the behavior of entities and processes.
         EXAMPLES: Monte Carlo simulation, discrete event simulation, queueing systems, digital twins.
 
-    PREDICTIVE ANALYTICS:
-    PD1: SUPERVISED LEARNING FOR PREDICTION
+    S5: SUPERVISED LEARNING FOR PREDICTION
 
         FOCUS: Supervised learning models predict a target variable from a dataset with multiple attributes.
         EXAMPLES: Regression models, decision trees, support vector machines, XGBoost, neural networks.
 
-    PD2: TIME SERIES ANALYSIS
+    S6: TIME SERIES ANALYSIS
 
         FOCUS: Methods focus on analyzing and predicting a univariate time series.
         EXAMPLES: Time series decomposition, Fourier analysis, ARIMA models.
+        
+    S7: CLUSTERING FOR CLASSIFICATION
 
-    PD3: ENGINEERING CONTROL FOR PREDICTION
+    FOCUS: Classification methods based on clustering quantitative datasets.
+    EXAMPLES: Soft and hard clustering models (hierarchical clustering, k-means, Gaussian Mixture Models).
 
-        FOCUS: Control models are used to predict outcomes by manipulating input variables with controllers.
+    CONTROL THEORY:
+    CT1: ENGINEERING CONTROL FOR PREDICTION
+
+        FOCUS: Control models are used to predict control by manipulating input variables with controllers.
         EXAMPLES: Control theory, linear filters, closed-form equations, travel time models.
+        
 
-    PRESCRIPTIVE ANALYTICS:
+    OPERATIONS RESEARCH:
     PS1: OPTIMIZATION METHODS
 
         FOCUS: Mathematical methods are used to search for solutions through predefined algorithms.
         EXAMPLES: Linear and non-linear optimization, heuristics, metaheuristics, hierarchical procedures, systematic approaches.
 
-    PS2: CLUSTERING FOR CLASSIFICATION
-
-        FOCUS: Classification methods based on clustering quantitative datasets.
-        EXAMPLES: Soft and hard clustering models (hierarchical clustering, k-means, Gaussian Mixture Models).
-
-    PS3: MULTI-SCENARIO ANALYSIS
+    PS2: MULTI-SCENARIO ANALYSIS
 
         FOCUS: Iterative application of discrete mathematical methods with varying input variables to evaluate multiple concurrent solutions.
         EXAMPLES: Multiscenario analysis, multiobjective optimization.
 
-    PS4: ENGINEERING CONTROL FOR PRESCRIPTION
 
-        FOCUS: Control models are used to prescribe actions by manipulating input variables with controllers.
-        EXAMPLES: Control theory, linear filters, closed-form equations.
 
     INSTRUCTIONS:
     Classify the scientific paper into ONE of the above classes (e.g., D1, PD1, PS1) based on the TITLE:" ${{ title }} " and ABSTRACT: " ${{ abstract}} "".
-    If NONE of the classes are suitable, output "OTHER" followed by a brief justification of no more than 10 words.
-
-    EXAMPLE INPUT:
-    "A method that uses supervised learning models, regression models, decision trees, and neural networks to predict a target variable."
-
-    EXAMPLE OUTPUT:
-    "PD1"
-
-    INPUT:
-    [Your method description here]
+    If NONE of the classes are suitable, output "OTHER" followed by a brief justification of no more than 10 words. ALSO add if a method is used for DESCRIPTIVE, PREDICTIVE or PRESCRIPTIVE purpose
 
     OUTPUT:
-    [Class code here]
+    Produce an output with indicating ONLY the CLASS and the PURPOSE, without adding any other information except for "OTHER" category
+       Examples:
+       "P1, PREDICTIVE"
+       "P1: PRESCRIPTIVE"

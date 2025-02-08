@@ -6,10 +6,14 @@ import datetime
 from yaml_replace import YAMLTemplate
 
 # Define the models to test
+model_list = ["deepseek-r1:8b"]
+'''
 model_list = ["phi3",       #3B parameters
               "llama3.1",   #8B parameters
               "mistral",    #7B parameters
-              "qwen2"]      #7B parameters
+              "qwen2",
+              "deepseek"]      #7B parameters
+              '''
 
 problem_list = ["problem_classification", "method_classification"]
 
@@ -56,7 +60,7 @@ def generate_prompt(title, abstract, problem):
 
 
 #%% Import data
-df = pd.read_excel("../data/_master_analysis.xlsx")
+df = pd.read_excel("../data/dataset_raw/_master_analysis.xlsx", sheet_name="Final dataset")
 
 # %% classify problems
 for problem in problem_list:
