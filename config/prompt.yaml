@@ -105,12 +105,12 @@ method_classification: >
         
 
     OPERATIONS RESEARCH:
-    PS1: OPTIMIZATION METHODS
+    OR1: OPTIMIZATION METHODS
 
         FOCUS: Mathematical methods are used to search for solutions through predefined algorithms.
         EXAMPLES: Linear and non-linear optimization, heuristics, metaheuristics, hierarchical procedures, systematic approaches.
 
-    PS2: MULTI-SCENARIO ANALYSIS
+    OR2: MULTI-SCENARIO ANALYSIS
 
         FOCUS: Iterative application of discrete mathematical methods with varying input variables to evaluate multiple concurrent solutions.
         EXAMPLES: Multiscenario analysis, multiobjective optimization.
