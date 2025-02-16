@@ -11,10 +11,6 @@ from matplotlib.colors import LinearSegmentedColormap
 df_cleaned = pd.read_excel("../data/dataset_processed/export_cleaned.xlsx")
 
 # %% define function for heatmaps
-import seaborn as sns
-import pandas as pd
-import matplotlib.pyplot as plt
-from matplotlib.colors import LinearSegmentedColormap
 
 def createHeatmap(D_scs: pd.DataFrame,
                   title: str,
@@ -81,13 +77,13 @@ columns_analysis = ['Year',
                     'problem_classification_phi3_cleaned',
                     'problem_classification_llama3.1_cleaned',
                     'problem_classification_mistral_cleaned',
-                    #'problem_classification_qwen2_cleaned',
-                    #'problem_classification_deepseek-r1:7b_cleaned',
+                    'problem_classification_qwen2_cleaned',
+                    'problem_classification_deepseek-r1:7b_cleaned',
                     'method_classification_phi3_cleaned',
                     'method_classification_llama3.1_cleaned',
                     'method_classification_mistral_cleaned',
-                    #'method_classification_qwen2_cleaned',
-                    #'method_classification_deepseek-r1:7b_cleaned',
+                    'method_classification_qwen2_cleaned',
+                    'method_classification_deepseek-r1:7b_cleaned',
                     'Supply chain System']
 df_analysis = df_cleaned[columns_analysis]
 
@@ -105,10 +101,10 @@ dict_column_models = {"phi3": {"methods_columns":"method_classification_phi3_cle
                                    "problems_columns": "problem_classification_llama3.1_cleaned"},
                       "mistral": {"methods_columns": "method_classification_mistral_cleaned",
                                   "problems_columns": "problem_classification_mistral_cleaned"}
-                      #,"qwen2": {"methods_columns":"method_classification_qwen2_cleaned",
-                      #          "problems_columns": "problem_classification_qwen2_cleaned"},
-                      #"deepseek-r1": {"methods_columns":"method_classification_deepseek-r1:7b_cleaned",
-                      #          "problems_columns": "problem_classification_deepseek-r1:7b_cleaned"}
+                      ,"qwen2": {"methods_columns":"method_classification_qwen2_cleaned",
+                                "problems_columns": "problem_classification_qwen2_cleaned"},
+                      "deepseek-r1": {"methods_columns":"method_classification_deepseek-r1:7b_cleaned",
+                                "problems_columns": "problem_classification_deepseek-r1:7b_cleaned"}
 }
 import matplotlib.pyplot as plt
 
@@ -303,7 +299,7 @@ df_analysis_permutations = generate_permutations_for_columns(df=df_permutations,
                                                              decade_col='Decade')
 # %% plot overall heatmap
 # Creazione di una nuova figura e asse
-fig, ax = plt.subplots(figsize=(10, 8))  # Regola la dimensione se necessario
+fig, ax = plt.subplots(figsize=(5, 3))  # Regola la dimensione se necessario
 
 # Creazione della heatmap indipendente
 createHeatmap(df_analysis_permutations,

@@ -16,8 +16,8 @@ columns_to_clean_problem = ['problem_classification_phi3',
 columns_to_clean_method = ['method_classification_phi3',
                            'method_classification_llama3.1',
                            'method_classification_mistral'
-                             #, 'method_classification_qwen2'
-                             #,'method_classification_deepseek-r1:7b'
+                            , 'method_classification_qwen2'
+                            ,'method_classification_deepseek-r1:7b'
                              ]
 
 def clean_think_tag(string):
@@ -144,7 +144,7 @@ def clean_analytics_family(string: str):
 df_cleaned = df_processed
 
 #Clean think tag for deepseek
-for column in ['problem_classification_deepseek-r1:7b']:
+for column in ['problem_classification_deepseek-r1:7b', 'method_classification_deepseek-r1:7b']:
    df_processed[column] = [clean_think_tag(str(i)) for i in df_processed[column]]
  
 
