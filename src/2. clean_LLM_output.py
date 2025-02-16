@@ -3,7 +3,7 @@ import pandas as pd
 import re
 
 # %% import data
-df_processed = pd.read_excel("../data/dataset_processed/export_processed_sample.xlsx")
+df_processed = pd.read_excel("../data/dataset_processed/export_processed.xlsx")
 
 # %% clean data
 columns_to_clean_problem = ['problem_classification_phi3', 
