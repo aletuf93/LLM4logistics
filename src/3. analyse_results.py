@@ -48,7 +48,7 @@ def createHeatmap(D_scs: pd.DataFrame,
 
     # Ordinamento delle righe
     D_scs_square['indiceSorting'] = [D_scs_square.index[i][1:] for i in range(len(D_scs_square))]
-    D_scs_square['indiceSorting'] = D_scs_square['indiceSorting'].astype(float)
+    D_scs_square['indiceSorting'] = D_scs_square['indiceSorting'].astype(str)
     D_scs_square.sort_values(by='indiceSorting', inplace=True)
     D_scs_square.drop(columns=['indiceSorting'], inplace=True)
 
@@ -113,7 +113,7 @@ numLLMs = len(scs) + 1  # Una riga in più per la heatmap "overall"
 numModels = len(dict_column_models)
 
 # Creazione della figura con subplots
-fig, axs = plt.subplots(numLLMs, numModels, figsize=(20, 20))
+fig, axs = plt.subplots(numLLMs, numModels, figsize=(20, 16))
 
 # Se la matrice axs ha una sola colonna, trasformiamola in un array 2D per evitare errori
 if numModels == 1:
@@ -162,57 +162,35 @@ plt.savefig("../data/output/_master_heatmap.jpg")
 plt.show()
 
 
-
-
-# %% Vote and aggregate 
-'''
-# Seleziona le colonne di interesse
-colonne = [
-    'problem_classification_phi3_cleaned',
-    'problem_classification_llama3.1_cleaned',
-    'problem_classification_mistral_cleaned'
-    #,'problem_classification_qwen2_cleaned'
-]
-
-# Unisci tutte le colonne in una "long format" dataframe
-df_long = df_analysis.melt(id_vars=[], value_vars=colonne, var_name='source', value_name='classification')
-
-# Aggiungi un ID riga per mantenere la tracciabilità delle righe originali
-df_long['row_id'] = df_analysis.index
-
-    # Crea la tabella pivot che conta le occorrenze per riga e classificazione
-    df_pivot = df_long.pivot_table(index='row_id', columns='classification', aggfunc='size', fill_value=0)
-
-    # Unisci i risultati della pivot con il dataframe originale, mantenendo l'ordine delle righe
-    df_finale = df.join(df_pivot, on=df.index)
-
-    return df_finale
-
-# Chiamare la funzione con il percorso del file
-file_path = '/path_to_your_file/export_cleaned.xlsx'
-df_modificato = conta_valori_colonne_con_pivot(file_path)
-
-# Visualizzare il dataframe con le nuove colonne
-print(df_modificato.head())
-'''
 # %% create timeline
 
 df_analysis ['Decade'] = df_analysis['Year']//10*10
 
 # correct the column "method" to use the new overall vote column
-def add_unique_columns(df, col1, col2, col3):
-    # Selezioniamo le quattro colonne iniziali
-    colonne_iniziali = df[[col1, col2, col3]]
+def add_unique_columns(df, *columns):
+    """
+    Modifica la funzione per accettare un numero variabile di colonne.
+    Crea nuove colonne per ogni valore unico presente nelle colonne selezionate.
+    
+    :param df: DataFrame di input
+    :param columns: Nomi delle colonne da analizzare
+    :return: DataFrame con nuove colonne per ciascun valore unico
+    """
+    if not columns:
+        raise ValueError("Devi specificare almeno una colonna.")
 
-    # Troviamo tutti i valori unici nelle quattro colonne
-    valori_unici = pd.unique(colonne_iniziali.values.ravel())
+    # Seleziona le colonne specificate
+    colonne_selezionate = df[list(columns)]
 
-    # Per ogni valore unico, creiamo una nuova colonna nel dataframe
+    # Trova tutti i valori unici nelle colonne selezionate
+    valori_unici = pd.unique(colonne_selezionate.values.ravel())
+
+    # Crea una nuova colonna per ogni valore unico
     for valore in valori_unici:
-        # La nuova colonna contiene il conteggio di quante volte il valore appare in ogni riga
-        df[valore] = colonne_iniziali.apply(lambda row: (row == valore).sum(), axis=1)
+        df[valore] = colonne_selezionate.apply(lambda row: (row == valore).sum(), axis=1)
 
     return df
+
 
 def max_score_columns_tiebreak_custom(df, columns_to_consider, new_column_name):
     """
@@ -234,20 +212,19 @@ def max_score_columns_tiebreak_custom(df, columns_to_consider, new_column_name):
 
     return df
 
-df_analysis = add_unique_columns(df_analysis, 'problem_classification_phi3_cleaned',
-                                                      'problem_classification_llama3.1_cleaned',
-                                                      'problem_classification_mistral_cleaned'
-                                                      #,'problem_classification_qwen2_cleaned'
+df_analysis = add_unique_columns(df_analysis, 
+                                 'problem_classification_qwen2_cleaned',
+                                 'problem_classification_deepseek-r1:7b_cleaned'
+                                 
                                                       )
 
 df_analysis = max_score_columns_tiebreak_custom(df=df_analysis,
                                                 columns_to_consider=listProblems,
                                                 new_column_name='problem_overall')
 
-df_analysis = add_unique_columns(df_analysis, 'method_classification_phi3_cleaned',
-                                              'method_classification_llama3.1_cleaned',
-                                              'method_classification_mistral_cleaned'
-                                              #,'method_classification_qwen2_cleaned'
+df_analysis = add_unique_columns(df_analysis,
+                                 'method_classification_qwen2_cleaned',
+                                 'method_classification_deepseek-r1:7b_cleaned'
                                               )
 
 df_analysis = max_score_columns_tiebreak_custom(df=df_analysis,
@@ -325,4 +302,90 @@ plt.figure()
 sns.heatmap(D_years_square, linewidths=.5,annot=True,cmap="YlOrRd", fmt='g')
 plt.title("Transition of the methods implementation over the time")
 plt.savefig(f"../data/output/_time_transition.jpg") 
+
+# %%
+
+# %% Create graphs Analytics Families
+# Dizionario aggiornato per il nuovo mapping
+analytics_family_columns = {
+    "phi3": {
+        "methods_columns": "method_classification_phi3_cleaned",
+        "analytics_columns": "method_classification_phi3_AnalyticsFamily"
+    },
+    "llama3.1": {
+        "methods_columns": "method_classification_llama3.1_cleaned",
+        "analytics_columns": "method_classification_llama3.1_AnalyticsFamily"
+    },
+    "mistral": {
+        "methods_columns": "method_classification_mistral_cleaned",
+        "analytics_columns": "method_classification_mistral_AnalyticsFamily"
+    },
+    "qwen2": {
+        "methods_columns": "method_classification_qwen2_cleaned",
+        "analytics_columns": "method_classification_qwen2_AnalyticsFamily"
+    },
+    "deepseek-r1": {
+        "methods_columns": "method_classification_deepseek-r1:7b_cleaned",
+        "analytics_columns": "method_classification_deepseek-r1:7b_AnalyticsFamily"
+    }
+}
+
+# Lista delle famiglie di metodi
+listAnalytics = ["DESCRIPTIVE", "PREDICTIVE", "PRESCRIPTIVE"]
+
+# Creazione del nuovo DataFrame con solo le colonne utili
+columns_analysis = [
+    'Year',
+    'method_classification_phi3_cleaned',
+    'method_classification_llama3.1_cleaned',
+    'method_classification_mistral_cleaned',
+    'method_classification_qwen2_cleaned',
+    'method_classification_deepseek-r1:7b_cleaned',
+    'method_classification_phi3_AnalyticsFamily',
+    'method_classification_llama3.1_AnalyticsFamily',
+    'method_classification_mistral_AnalyticsFamily',
+    'method_classification_qwen2_AnalyticsFamily',
+    'method_classification_deepseek-r1:7b_AnalyticsFamily',
+    'Supply chain System'
+]
+df_analysis2 = df_cleaned[columns_analysis]
+
+# Creazione dei nuovi heatmap
+fig, axs = plt.subplots(numLLMs, len(analytics_family_columns), figsize=(20, 16))
+if len(analytics_family_columns) == 1:
+    axs = axs[:, None]  # Evita errori con un solo modello
+
+for i_column, model in enumerate(analytics_family_columns.keys()):
+    for i_row, supply_chain_system in enumerate(scs):
+        df_filtered = df_analysis2[df_analysis2["Supply chain System"] == supply_chain_system]
+        title = f"{supply_chain_system}_{model}_AnalyticsFamily"
+        ax = axs[i_row, i_column]
+        createHeatmap(df_filtered,
+                      title=title,
+                      column_problem=analytics_family_columns[model]["methods_columns"],
+                      column_method=analytics_family_columns[model]["analytics_columns"],
+                      listProblems=listMethods,  # Qui listMethods rappresenta i metodi originali
+                      listMethods=listAnalytics,
+                      ax=ax)
+        if i_column == 0:
+            ax.set_ylabel("Method")
+    
+    # Heatmap complessiva senza filtro "Supply chain System"
+    title = f"overall_{model}_AnalyticsFamily"
+    ax = axs[numLLMs - 1, i_column]
+    createHeatmap(df_analysis2,
+                  title=title,
+                  column_problem=analytics_family_columns[model]["methods_columns"],
+                  column_method=analytics_family_columns[model]["analytics_columns"],
+                  listProblems=listMethods,
+                  listMethods=listAnalytics,
+                  ax=ax)
+    if i_column == 0:
+        ax.set_ylabel("Method")
+    ax.set_xlabel("Analytics Family")
+
+plt.tight_layout()
+plt.savefig("../data/output/_method_analytics_family_heatmap.jpg")
+plt.show()
+
 # %%
