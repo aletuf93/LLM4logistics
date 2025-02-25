@@ -388,4 +388,29 @@ plt.tight_layout()
 plt.savefig("../data/output/_method_analytics_family_heatmap.jpg")
 plt.show()
 
+# %% Grafico con variazioni percentuali
+# %% Calcolo variazioni percentuali tra decadi
+
+# Raggruppa i dati e calcola i conteggi
+D_years = df_analysis_permutations.groupby(['Decade', 'method_overall']).size().reset_index(name='count')
+
+# Trasforma in una tabella pivot (decade come colonne)
+D_years_square = D_years.pivot(index='method_overall', columns='Decade', values='count')
+
+# Calcola la variazione percentuale da una decade all'altra (ignorando la prima)
+D_years_square_pct = D_years_square.pct_change(axis=1) * 100  # Converti in percentuale
+
+# Rimuove la prima colonna (senza riferimento precedente per la variazione)
+D_years_square_pct = D_years_square_pct.iloc[:, 1:]
+
+# Plot della heatmap con variazioni percentuali
+plt.figure(figsize=(6, 4))
+sns.heatmap(D_years_square_pct, linewidths=.5, annot=True, cmap="coolwarm", fmt=".1f", center=0)
+plt.title("Percentual Variation of Methods Implementation Over Time")
+plt.ylabel("Method")
+plt.xlabel("Decade")
+plt.savefig("../data/output/_time_transition_percentage.jpg")
+plt.show()
+
+
 # %%
