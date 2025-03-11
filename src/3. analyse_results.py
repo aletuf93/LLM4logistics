@@ -414,3 +414,52 @@ plt.show()
 
 
 # %%
+
+df_analysis2 = add_unique_columns(df_analysis2, 
+                                 'method_classification_qwen2_AnalyticsFamily',
+                                 'method_classification_deepseek-r1:7b_AnalyticsFamily'
+                                 
+                                                      )
+
+df_analysis2 = max_score_columns_tiebreak_custom(df=df_analysis2,
+                                                columns_to_consider=listAnalytics,
+                                                new_column_name='analytics_overall')
+
+df_analysis2 = add_unique_columns(df_analysis2, 
+                                 'method_classification_qwen2_cleaned',
+                                 'method_classification_deepseek-r1:7b_cleaned'
+                                 
+                                                      )
+
+df_analysis2 = max_score_columns_tiebreak_custom(df=df_analysis2,
+                                                columns_to_consider=listMethods,
+                                                new_column_name='method_overall')
+
+
+# %%
+df_analysis2 ['Decade'] = df_analysis2['Year']//10*10
+df_permutations = df_analysis2[["Decade", "method_overall", "analytics_overall"]]
+df_analysis_permutations = generate_permutations_for_columns(df=df_permutations,
+                                                             method_col='method_overall',
+                                                             problem_col='analytics_overall',
+                                                             decade_col='Decade')
+# %% plot overall heatmap
+# Creazione di una nuova figura e asse
+fig, ax = plt.subplots(figsize=(5, 3))  # Regola la dimensione se necessario
+
+# Creazione della heatmap indipendente
+createHeatmap(df_analysis_permutations,
+              title="Overall classification",
+              column_problem='analytics_overall',
+              column_method='method_overall',
+              listProblems=listAnalytics,
+              listMethods=listMethods,
+              ax=ax)  # Passiamo esplicitamente l'asse
+
+# Salvataggio del grafico
+plt.savefig("../data/output/_overall_analytics_heatmap.jpg")
+plt.show()  # Mostra il grafico
+ 
+
+
+# %%
